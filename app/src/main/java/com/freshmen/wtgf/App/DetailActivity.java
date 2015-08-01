@@ -23,6 +23,7 @@ public class DetailActivity extends YouTubeBaseActivity implements YouTubePlayer
         setContentView(R.layout.activity_detail);
         youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_view);
         youTubePlayerView.initialize(Config.DEVELOPER_KEY, this);
+
     }
 
     @Override
@@ -56,7 +57,8 @@ public class DetailActivity extends YouTubeBaseActivity implements YouTubePlayer
             player.loadVideo(Config.YOUTUBE_VIDEO_CODE);
 
             // Hiding player controls
-            player.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
+            player.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
+            //player.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
         }
     }
 

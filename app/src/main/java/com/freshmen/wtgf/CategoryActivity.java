@@ -1,5 +1,6 @@
 package com.freshmen.wtgf;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -8,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.freshmen.wtgf.App.DetailActivity;
 import com.freshmen.wtgf.adapter.CategoryAdapter;
 import com.freshmen.wtgf.object.Category;
 
@@ -54,6 +56,8 @@ public class CategoryActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_tracker) {
+            Intent youTubePlayer = new Intent(this, DetailActivity.class);
+            startActivity(youTubePlayer);
             return true;
         }
 
