@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from models import Category, Workout, User
 import json
 import calendar
+import collections
 
 
 def categories(request):
@@ -23,18 +24,18 @@ def workout(request, workout_id):
     return HttpResponse(json.dumps(the_workout), content_type="application/json")
 
 
-def dump_data_path(request, user_id):
+def dump_user_data(request, user_id):
     user = User.objects.get(pk=user_id)
-    times = randrange(0, 100)
     dump_dict = {}
-    for i in range(100):
+    for i in range(1000):
         month = randrange(1, 13)
         cal = calendar.Calendar()
         day = randrange(1,28)
         hour = randrange(6, 18)
         minute = randrange(0, 59)
         time = str(hour) + ":" + str(minute)
-        workoutId = randrange(1,24)
+        workout_id = randrange(1,13)
+        calories = randrange(100,500)
 
         if month not in dump_dict.keys():
             dump_dict[month] = {}
@@ -43,12 +44,13 @@ def dump_data_path(request, user_id):
         if time not in dump_dict[month][day]:
             dump_dict[month][day][time] = {}
 
-        dump_dict[month][day][time]["workoutId"] = workoutId
-        dump_dict[month][day][time]["calories"] = 200
-    user.history = json.dumps(dump_dict)
+        dump_dict[month][day][time]["workoutId"] = workout_id
+        dump_dict[month][day][time]["calories"] = calories
+    user.history = dump_dict
     user.save()
+    return HttpResponse("Dump data successfully")
 
 
-def return_user_info(request, user_id):
+def user_info(request, user_id):
     user = User.objects.get(pk=user_id).as_json()
     return HttpResponse(json.dumps(user), content_type="application/json")

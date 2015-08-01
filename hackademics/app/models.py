@@ -1,3 +1,5 @@
+import collections
+import json
 from django.db import models
 from jsonfield import JSONField
 import pafy
@@ -36,7 +38,7 @@ class Workout(models.Model):
 
 class User(models.Model):
     email = models.EmailField()
-    history = JSONField()
+    history = JSONField(blank=True)
 
     def __str__(self):
         return self.email
