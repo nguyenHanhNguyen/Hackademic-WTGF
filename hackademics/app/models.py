@@ -6,13 +6,12 @@ import pafy
 class Category(models.Model):
     name = models.TextField()
     description = models.TextField()
-    exerciseNumber = models.IntegerField(default=0)
 
     def __str__(self):
         return self.name
 
     def as_json(self):
-        return dict(name=self.name, description=self.description)
+        return dict(name=self.name, description=self.description, workoutNumber=self.workout_set.count())
 
 
 class Workout(models.Model):
@@ -38,6 +37,9 @@ class Workout(models.Model):
 class User(models.Model):
     email = models.EmailField()
     history = JSONField()
+
+    def __str__(self):
+        return self.email
 
     def as_json(self):
         return dict(email=self.email, history=self.history)
