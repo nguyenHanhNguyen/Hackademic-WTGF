@@ -1,9 +1,9 @@
 package com.freshmen.wtgf.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.freshmen.wtgf.R;
+import com.freshmen.wtgf.WTGF;
+import com.freshmen.wtgf.WorkoutActivity;
 import com.freshmen.wtgf.object.Category;
 
 import java.util.List;
@@ -18,8 +20,7 @@ import java.util.List;
 /**
  * Created by Hung on 01/08/2015.
  */
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
-        implements View.OnClickListener{
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
     private Context        mContext;
     private List<Category> mCategoryList;
 
@@ -59,22 +60,12 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         } else {
             viewHolder.desc.setText(c.getDescription());
         }
-
-        viewHolder.categoryItemLinearLayout.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-//        Intent intent = new Intent(mContext, );
-//        mContext.startActivity(intent);
-        Log.d("test", "On Item Click");
 
-    }
-
-    public class CategoryViewHolder extends RecyclerView.ViewHolder {
+    public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView name;
         public TextView desc;
-        public LinearLayout categoryItemLinearLayout;
 
 
         public CategoryViewHolder(View view) {
@@ -82,9 +73,19 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
             name = (TextView) view.findViewById(R.id.act_category_tv_item_name);
             desc = (TextView) view.findViewById(R.id.act_category_tv_item_desc);
-            categoryItemLinearLayout = (LinearLayout) view.findViewById(R.id.act_category_ll_item);
 
-            ViewCompat.setElevation(categoryItemLinearLayout, 16F);
+            LinearLayout ll = (LinearLayout) view.findViewById(R.id.act_category_ll_item);
+            ll.setOnClickListener(this);
+            ViewCompat.setElevation(ll, 16F);
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(mContext, WorkoutActivity.class);
+            intent.putExtra(WTGF.SELECTED_CATEGORY_TAG, getAdapterPosition() + 1);
+            intent.putExtra(WTGF.SELECTED_CATEGORY_NAME_TAG,
+                            mCategoryList.get(getAdapterPosition()).getName());
+            mContext.startActivity(intent);
         }
     }
 }

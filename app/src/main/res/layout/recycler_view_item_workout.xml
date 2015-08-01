@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clipToPadding="false"
+    android:paddingBottom="@dimen/act_vertical_margin"
+    android:paddingLeft="@dimen/act_horizontal_margin"
+    android:paddingRight="@dimen/act_horizontal_margin"
+    android:paddingTop="@dimen/act_vertical_margin">
+
+    <RelativeLayout
+        android:id="@+id/act_workout_ll_item"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/drawable_white_background_with_corners"
+        android:orientation="horizontal">
+
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/act_workout_riv_thumb"
+            android:layout_width="@dimen/act_workout_riv_thumb_size"
+            android:layout_height="@dimen/act_workout_riv_thumb_size"
+            android:layout_centerVertical="true"
+            android:layout_margin="@dimen/image_padding"
+            app:riv_border_width="1dip"
+            app:riv_corner_radius="@dimen/corner_radius_small"
+            app:riv_mutate_background="true" />
+
+        <TextView
+            android:id="@+id/act_workout_tv_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/act_workout_riv_thumb"
+            android:paddingBottom="@dimen/act_vertical_margin"
+            android:paddingTop="@dimen/act_vertical_margin"
+            android:text="Name"
+            android:textColor="@color/accent"
+            android:textStyle="bold" />
+
+        <View
+            android:id="@+id/act_workout_v_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/act_workout_tv_name"
+            android:layout_toRightOf="@id/act_workout_riv_thumb"
+            android:background="@color/divider" />
+
+        <TextView
+            android:id="@+id/act_workout_tv_time_prompt"
+            android:layout_width="@dimen/act_workout_tv_prompt_width"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/act_workout_v_divider"
+            android:layout_toRightOf="@id/act_workout_riv_thumb"
+            android:paddingBottom="@dimen/act_vertical_margin"
+            android:paddingTop="@dimen/act_vertical_margin"
+            android:text="@string/act_workout_tv_time"
+            android:textColor="@color/secondary_text" />
+
+        <TextView
+            android:id="@+id/act_workout_tv_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/act_workout_v_divider"
+            android:layout_toRightOf="@id/act_workout_tv_time_prompt"
+            android:paddingBottom="@dimen/act_vertical_margin"
+            android:paddingTop="@dimen/act_vertical_margin"
+            android:text="Time"
+            android:textColor="@color/secondary_text" />
+
+        <TextView
+            android:id="@+id/act_workout_tv_calories_prompt"
+            android:layout_width="@dimen/act_workout_tv_prompt_width"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/act_workout_tv_time"
+            android:layout_toRightOf="@id/act_workout_riv_thumb"
+            android:paddingBottom="@dimen/act_vertical_margin"
+            android:paddingTop="@dimen/act_vertical_margin"
+            android:text="@string/act_workout_tv_calories"
+            android:textColor="@color/secondary_text" />
+
+        <TextView
+            android:id="@+id/act_workout_tv_calories"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/act_workout_tv_time"
+            android:layout_toRightOf="@id/act_workout_tv_calories_prompt"
+            android:paddingBottom="@dimen/act_vertical_margin"
+            android:paddingTop="@dimen/act_vertical_margin"
+            android:text="Calories"
+            android:textColor="@color/secondary_text" />
+    </RelativeLayout>
+</FrameLayout>

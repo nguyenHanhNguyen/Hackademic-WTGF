@@ -1,7 +1,7 @@
 package com.freshmen.wtgf;
 
-import android.os.AsyncTask;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -82,7 +82,7 @@ public class CategoryActivity extends AppCompatActivity {
         protected Category[] doInBackground(Void... params) {
 
             try {
-                final String url = "http://10.0.239.121:8000/app/";
+                final String url = WTGF.SERVER_ADDRESS;
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
 
@@ -91,16 +91,18 @@ public class CategoryActivity extends AppCompatActivity {
 
                 Log.d("test", categories.length + "");
 
-            } catch (Exception ignored) {}
+            } catch (Exception ignored) {
+                Log.d("test", ignored.getMessage());
+            }
 
             return null;
         }
 
         @Override
-        protected void onPostExecute(Category[] category) {
-            super.onPostExecute(category);
+        protected void onPostExecute(Category[] categories) {
+            super.onPostExecute(categories);
 
-            CategoryActivity.this.mAdapter.notifyDataSetChanged();
+            mAdapter.notifyDataSetChanged();
         }
     }
 }
