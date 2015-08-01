@@ -4,21 +4,21 @@ package com.freshmen.wtgf.object;
  * Created by nguyen on 01/08/2015.
  */
 public class Workout {
-    public String name;
-    public String video_url;
-    public int exerciseNumber;
-    public int category;
-    public int estimated_calories;
-    public String tags;
-    public String video_duration;
-    public String description;
-    public String video_thumbnail;
+    private String name;
+    private String video_url;
+    private int exerciseNumber;
+    private int category;
+    private int estimated_calories;
+    private String tags;
+    private String video_duration;
+    private String description;
+    private String video_thumbnail;
 
-    public String getVideoThumbnail() {
+    public String getVideo_thumbnail() {
         return video_thumbnail;
     }
 
-    public void setVideoThumbnail(String video_thumbnail) {
+    public void setVideo_thumbnail(String video_thumbnail) {
         this.video_thumbnail = video_thumbnail;
     }
 

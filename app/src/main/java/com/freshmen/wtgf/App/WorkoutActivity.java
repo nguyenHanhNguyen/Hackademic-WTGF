@@ -15,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 
-import com.freshmen.wtgf.App.DetailActivity;
 import com.freshmen.wtgf.R;
 import com.freshmen.wtgf.WTGF;
 import com.freshmen.wtgf.adapter.WorkoutAdapter;
@@ -157,7 +156,7 @@ public class WorkoutActivity extends AppCompatActivity {
 
             for (int i = 0; i < mWorkoutList.size(); i++) {
                 new LoadThumbnailTask().execute(mContext,
-                                                mWorkoutList.get(i).getVideoThumbnail(),
+                                                mWorkoutList.get(i).getVideo_thumbnail(),
                                                 i);
             }
         }

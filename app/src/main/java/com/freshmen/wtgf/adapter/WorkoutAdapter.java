@@ -104,7 +104,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
             intent.putExtra(WTGF.SELECTED_WORKOUT_TAG, getAdapterPosition() + 1);
             intent.putExtra(WTGF.SELECTED_WORKOUT_VIDEO_TAG,
                             mWorkoutList.get(getAdapterPosition()).getVideo_url());
-//            mContext.startActivity(intent);
+            mContext.startActivity(intent);
         }
     }
 }
