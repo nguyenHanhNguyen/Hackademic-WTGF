@@ -35,6 +35,7 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
     TextView txt_workout_calories;
     RoundCornerProgressBar progressBar;
     public int process;
+    public android.support.v7.app.ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +44,8 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
 
         Toolbar tb = (Toolbar) findViewById(R.id.act_category_tb_toolbar);
         setSupportActionBar(tb);
+
+        actionBar = getSupportActionBar();
 
 
         //load workout info
@@ -152,7 +155,7 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
         protected void onPostExecute(Workout workout) {
             Log.d("Workout name", workout.getName());
 
-            //txt_workout_name.setText(workout.getName());
+            actionBar.setTitle(workout.getName());
             txt_workout_desc.setText(workout.getDescription());
             txt_workout_calories.setText(String.valueOf(workout.getEstimated_calories()));
             String url = workout.getVideo_url();
