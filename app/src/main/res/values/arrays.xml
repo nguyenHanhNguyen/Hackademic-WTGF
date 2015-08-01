@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <array name="circular_progress_colors">
+        <item>@color/primary</item>
+        <item>@color/primary_dark</item>
+        <item>@color/primary_light</item>
+        <item>@color/accent</item>
+    </array>
+</resources>

@@ -6,10 +6,12 @@
     <dimen name="act_horizontal_margin">8dp</dimen>
     <dimen name="act_vertical_margin">6dp</dimen>
     <dimen name="image_padding">8dp</dimen>
+    <dimen name="circular_progress_size">128dp</dimen>
 
     <dimen name="corner_radius">4dp</dimen>
     <dimen name="corner_radius_small">2dp</dimen>
     <dimen name="text_padding">8dp</dimen>
+    <dimen name="text_padding_small">4dp</dimen>
 
     <dimen name="act_workout_riv_thumb_size">100dp</dimen>
     <dimen name="act_workout_tv_prompt_width">64dp</dimen>

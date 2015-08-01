@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.freshmen.wtgf.App.DetailActivity;
 import com.freshmen.wtgf.adapter.WorkoutAdapter;
@@ -26,6 +27,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+import fr.castorflex.android.circularprogressbar.CircularProgressDrawable;
+
 
 public class WorkoutActivity extends AppCompatActivity {
     private int mCategory;
@@ -34,6 +38,10 @@ public class WorkoutActivity extends AppCompatActivity {
     private WorkoutAdapter mAdapter;
     private final List<Workout> mWorkoutList = new ArrayList<>();
     private final List<Bitmap>  mThumbList   = new ArrayList<>();
+
+    private CircularProgressBar mProgress;
+    private RecyclerView        mRecycler;
+    private RelativeLayout      mProgressLayout;
 
 
     @Override
@@ -48,7 +56,6 @@ public class WorkoutActivity extends AppCompatActivity {
         }
 
         mAdapter = new WorkoutAdapter(this, mWorkoutList, mThumbList);
-        loadCategories();
 
         Toolbar tb = (Toolbar) findViewById(R.id.act_workout_tb_toolbar);
         setSupportActionBar(tb);
@@ -64,10 +71,16 @@ public class WorkoutActivity extends AppCompatActivity {
             }
         });
 
-        RecyclerView rv = (RecyclerView) findViewById(R.id.act_workout_rv_list);
-        rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
-                                                    false));
-        rv.setAdapter(mAdapter);
+        mRecycler = (RecyclerView) findViewById(R.id.act_workout_rv_list);
+        mRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
+                                                           false));
+        mRecycler.setAdapter(mAdapter);
+
+        mProgress = (CircularProgressBar) findViewById(R.id.act_workout_cpb_progress);
+
+        mProgressLayout = (RelativeLayout) findViewById(R.id.act_workout_rv_progress);
+
+        loadCategories();
     }
 
     @Override
@@ -97,6 +110,9 @@ public class WorkoutActivity extends AppCompatActivity {
 
     public void loadCategories() {
         if (mCategory > 0) {
+            mRecycler.setVisibility(View.GONE);
+            mProgressLayout.setVisibility(View.VISIBLE);
+            ((CircularProgressDrawable) mProgress.getIndeterminateDrawable()).start();
             new HttpRequestTask().execute(this);
         }
     }
@@ -126,6 +142,10 @@ public class WorkoutActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Workout[] workouts) {
             super.onPostExecute(workouts);
+
+            mProgressLayout.setVisibility(View.GONE);
+            mRecycler.setVisibility(View.VISIBLE);
+            ((CircularProgressDrawable) mProgress.getIndeterminateDrawable()).progressiveStop();
 
             for (int i = 0; i < mWorkoutList.size(); i++) {
                 mThumbList.add(null);

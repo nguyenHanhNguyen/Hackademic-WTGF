@@ -25,4 +25,25 @@
         android:clipToPadding="false"
         android:paddingBottom="@dimen/act_vertical_margin"
         android:paddingTop="@dimen/act_vertical_margin" />
+
+    <RelativeLayout
+        android:id="@+id/act_workout_rv_progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone">
+
+        <fr.castorflex.android.circularprogressbar.CircularProgressBar
+            android:id="@+id/act_workout_cpb_progress"
+            android:layout_width="@dimen/circular_progress_size"
+            android:layout_height="@dimen/circular_progress_size"
+            android:layout_gravity="center"
+            android:indeterminate="true"
+            app:cpb_colors="@array/circular_progress_colors"
+            app:cpb_max_sweep_angle="300"
+            app:cpb_min_sweep_angle="10"
+            app:cpb_rotation_speed="1.0"
+            app:cpb_stroke_width="4dp"
+            app:cpb_sweep_speed="1.0" />
+    </RelativeLayout>
 </LinearLayout>

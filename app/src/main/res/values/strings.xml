@@ -6,6 +6,8 @@
     <string name="title_activity_workout">Workout</string>
     <string name="error_player">Error</string>
 
+    <string name="act_category_tv_workout_count">Number of workout:</string>
+
     <string name="act_workout_tv_time">Time:</string>
     <string name="act_workout_tv_calories">Calories:</string>
 </resources>

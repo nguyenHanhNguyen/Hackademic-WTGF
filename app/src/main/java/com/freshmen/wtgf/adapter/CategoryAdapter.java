@@ -48,10 +48,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     public void onBindViewHolder(CategoryViewHolder viewHolder, int position) {
         Category c = mCategoryList.get(position);
 
-        if (c.getName() == null || c.getName().length() == 0 || c.getName().trim().equals("")) {
-            viewHolder.name.setText("NULL");
+        if (c.getWorkoutNumber() < 0) {
+            viewHolder.count.setText("0");
         } else {
-            viewHolder.name.setText(c.getName());
+            viewHolder.count.setText(String.valueOf(c.getWorkoutNumber()));
         }
 
         if (c.getDescription() == null || c.getDescription().length() == 0 ||
@@ -60,19 +60,27 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         } else {
             viewHolder.desc.setText(c.getDescription());
         }
+
+        if (c.getName() == null || c.getName().length() == 0 || c.getName().trim().equals("")) {
+            viewHolder.name.setText("NULL");
+        } else {
+            viewHolder.name.setText(c.getName());
+        }
     }
 
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        public TextView name;
+        public TextView count;
         public TextView desc;
+        public TextView name;
 
 
         public CategoryViewHolder(View view) {
             super(view);
 
-            name = (TextView) view.findViewById(R.id.act_category_tv_item_name);
+            count = (TextView) view.findViewById(R.id.act_category_tv_workout_count);
             desc = (TextView) view.findViewById(R.id.act_category_tv_item_desc);
+            name = (TextView) view.findViewById(R.id.act_category_tv_item_name);
 
             LinearLayout ll = (LinearLayout) view.findViewById(R.id.act_category_ll_item);
             ll.setOnClickListener(this);

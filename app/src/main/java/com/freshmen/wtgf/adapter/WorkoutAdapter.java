@@ -1,17 +1,19 @@
 package com.freshmen.wtgf.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.freshmen.wtgf.App.DetailActivity;
 import com.freshmen.wtgf.R;
+import com.freshmen.wtgf.WTGF;
 import com.freshmen.wtgf.object.Workout;
 import com.makeramen.roundedimageview.RoundedImageView;
 
@@ -20,8 +22,7 @@ import java.util.List;
 /**
  * Created by Hung on 01/08/2015.
  */
-public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder>
-        implements View.OnClickListener {
+public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutViewHolder> {
     private Context       mContext;
     private List<Workout> mWorkoutList;
     private List<Bitmap>  mThumbList;
@@ -75,24 +76,14 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
         } else {
             viewHolder.image.setImageBitmap(mThumbList.get(position));
         }
-
-        viewHolder.workoutItemRelativeLayout.setOnClickListener(this);
     }
 
-    @Override
-    public void onClick(View v) {
-//        Intent intent = new Intent(mContext, );
-//        mContext.startActivity(intent);
-        Log.d("test", "On Item Click");
-
-    }
-
-    public class WorkoutViewHolder extends RecyclerView.ViewHolder {
+    public class WorkoutViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public RoundedImageView image;
         public TextView         name;
         public TextView         time;
         public TextView         calories;
-        public RelativeLayout   workoutItemRelativeLayout;
+        ;
 
 
         public WorkoutViewHolder(View view) {
@@ -102,9 +93,18 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutV
             name = (TextView) view.findViewById(R.id.act_workout_tv_name);
             time = (TextView) view.findViewById(R.id.act_workout_tv_time);
             calories = (TextView) view.findViewById(R.id.act_workout_tv_calories);
-            workoutItemRelativeLayout = (RelativeLayout) view.findViewById(R.id.act_workout_ll_item);
+            RelativeLayout rl = (RelativeLayout) view.findViewById(R.id.act_workout_ll_item);
+            rl.setOnClickListener(this);
+            ViewCompat.setElevation(rl, 16F);
+        }
 
-            ViewCompat.setElevation(workoutItemRelativeLayout, 16F);
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(mContext, DetailActivity.class);
+            intent.putExtra(WTGF.SELECTED_WORKOUT_TAG, getAdapterPosition() + 1);
+            intent.putExtra(WTGF.SELECTED_WORKOUT_VIDEO_TAG,
+                            mWorkoutList.get(getAdapterPosition()).getVideo_url());
+//            mContext.startActivity(intent);
         }
     }
 }

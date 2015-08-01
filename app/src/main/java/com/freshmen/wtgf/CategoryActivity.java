@@ -10,6 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.RelativeLayout;
 
 import com.freshmen.wtgf.App.DetailActivity;
 import com.freshmen.wtgf.adapter.CategoryAdapter;
@@ -22,10 +24,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import fr.castorflex.android.circularprogressbar.CircularProgressBar;
+import fr.castorflex.android.circularprogressbar.CircularProgressDrawable;
+
 
 public class CategoryActivity extends AppCompatActivity {
     private CategoryAdapter mAdapter;
+
     private final List<Category> mCategoryList = new ArrayList<>();
+
+    private CircularProgressBar mProgress;
+    private RecyclerView        mRecycler;
+    private RelativeLayout      mProgressLayout;
 
 
     @Override
@@ -35,16 +45,20 @@ public class CategoryActivity extends AppCompatActivity {
         setContentView(R.layout.act_category);
 
         mAdapter = new CategoryAdapter(this, mCategoryList);
-        loadCategories();
 
         Toolbar tb = (Toolbar) findViewById(R.id.act_category_tb_toolbar);
         setSupportActionBar(tb);
 
-        RecyclerView rv = (RecyclerView) findViewById(R.id.act_category_rv_list);
+        mRecycler = (RecyclerView) findViewById(R.id.act_category_rv_list);
+        mRecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,
+                                                           false));
+        mRecycler.setAdapter(mAdapter);
 
-        rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
-        rv.setAdapter(mAdapter);
+        mProgress = (CircularProgressBar) findViewById(R.id.act_category_cpb_progress);
 
+        mProgressLayout = (RelativeLayout) findViewById(R.id.act_category_rv_progress);
+
+        loadCategories();
     }
 
     @Override
@@ -73,6 +87,9 @@ public class CategoryActivity extends AppCompatActivity {
 
 
     public void loadCategories() {
+        mRecycler.setVisibility(View.GONE);
+        mProgressLayout.setVisibility(View.VISIBLE);
+        ((CircularProgressDrawable) mProgress.getIndeterminateDrawable()).start();
         new HttpRequestTask().execute();
     }
 
@@ -101,6 +118,10 @@ public class CategoryActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Category[] categories) {
             super.onPostExecute(categories);
+
+            mProgressLayout.setVisibility(View.GONE);
+            mRecycler.setVisibility(View.VISIBLE);
+            ((CircularProgressDrawable) mProgress.getIndeterminateDrawable()).progressiveStop();
 
             mAdapter.notifyDataSetChanged();
         }

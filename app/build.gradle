@@ -36,5 +36,6 @@ dependencies {
     compile 'com.makeramen:roundedimageview:2.1.2'
     compile 'org.springframework.android:spring-android-rest-template:1.0.1.RELEASE'
     compile 'com.squareup.picasso:picasso:2.3.2'
+    compile 'com.github.castorflex.smoothprogressbar:library-circular:1.1.0'
     compile files('libs/YouTubeAndroidPlayerApi.jar')
 }
