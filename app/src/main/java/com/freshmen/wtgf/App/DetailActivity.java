@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.freshmen.wtgf.Config.Config;
 import com.freshmen.wtgf.R;
+import com.freshmen.wtgf.WTGF;
 import com.freshmen.wtgf.object.Workout;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
@@ -34,11 +35,22 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
     RoundCornerProgressBar progressBar;
     public int process;
     public android.support.v7.app.ActionBar actionBar;
+    public String youtube_code;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.detail_activity);
+
+        Intent detail_offer = getIntent();
+        int workout_id = detail_offer.getIntExtra(WTGF.SELECTED_WORKOUT_TAG, 0);
+        Log.d("workout id", String.valueOf(workout_id));
+
+        String url = detail_offer.getStringExtra(WTGF.SELECTED_WORKOUT_VIDEO_TAG);
+
+        int startIndex = url.indexOf("=");
+        youtube_code = url.substring(startIndex + 1, url.length());
+        Log.d("Code", youtube_code);
 
         Toolbar tb = (Toolbar) findViewById(R.id.act_category_tb_toolbar);
         setSupportActionBar(tb);
@@ -47,7 +59,9 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
 
 
         //load workout info
-        new LoadInfo().execute();
+        LoadInfo loadInfo = new LoadInfo(workout_id);
+        loadInfo.setWorkout_id(workout_id);
+        loadInfo.execute();
 
         youTubePlayerFragment = (YouTubePlayerSupportFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.youtube_fragment);
@@ -56,13 +70,11 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
         this.txt_workout_desc = (TextView) findViewById(R.id.txt_desc);
         this.txt_workout_calories = (TextView) findViewById(R.id.txt_calories);
 
-//        this.progressBar = (RoundCornerProgressBar)findViewById(R.id.progress_1);
+        this.progressBar = (RoundCornerProgressBar) findViewById(R.id.progress_1);
         progressBar.setProgressColor(Color.parseColor("#8BC34A"));
         progressBar.setBackgroundColor(Color.parseColor("#808080"));
         progressBar.setPadding(5);
         progressBar.setMax(70);
-        progressBar.setProgress(process);
-
 
     }
 
@@ -78,6 +90,7 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
             // Hiding player controls
             youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
             process = youTubePlayer.getCurrentTimeMillis();
+            progressBar.setProgress(process);
 
             //player.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
         }
@@ -132,11 +145,24 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
 
     private class LoadInfo extends AsyncTask<Void, Void, Workout> {
 
-        String url = "http://10.0.239.121:8000/app/workout=1/";
+        int workout_id;
+
+        public LoadInfo(int workout_id) {
+            this.workout_id = workout_id;
+        }
+
+        public void setWorkout_id(int workout_id) {
+            this.workout_id = workout_id;
+        }
+
+
 
         @Override
         protected Workout doInBackground(Void... params) {
+            setWorkout_id(workout_id);
+            String url = WTGF.WORK_OUT_LINK.concat(String.valueOf(workout_id)).concat("/");
             Workout workout = null;
+
             try {
                 RestTemplate restTemplate = new RestTemplate();
                 restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
@@ -156,10 +182,7 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
             actionBar.setTitle(workout.getName());
             txt_workout_desc.setText(workout.getDescription());
             txt_workout_calories.setText(String.valueOf(workout.getEstimated_calories()));
-            String url = workout.getVideo_url();
-/*            int startIndex = url.indexOf("=");
-            youtube_code = url.substring(startIndex + 1, url.length());
-            Log.d("Code", youtube_code);*/
+
             super.onPostExecute(workout);
         }
     }
