@@ -4,13 +4,19 @@
     <string name="action_tracker">Tracker</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="title_activity_workout">Workout</string>
+    <string name="title_activity_tracker">Tracker</string>
     <string name="error_player">Error</string>
 
     <string name="act_category_tv_workout_count">Number of workout:</string>
 
     <string name="act_workout_tv_time">Time:</string>
     <string name="act_workout_tv_calories">Calories:</string>
-    <string name="hello_world">Hello world!</string>
+
+    <string name="act_tracker_tv_cal">Calories burned today</string>
+    <string name="act_tracker_tv_history">Workout viewed</string>
+    <string name="act_tracker_bc_desc">Calories burned in the last 7 days</string>
+    <string name="act_tracker_bc_no_data_desc">No data</string>
+
     <string name="action_settings">Settings</string>
     <string name="txt_description_label">Description</string>
     <string name="txt_calories_label">Calories burn</string>

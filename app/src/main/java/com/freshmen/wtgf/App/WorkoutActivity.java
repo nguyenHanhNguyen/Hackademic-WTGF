@@ -100,8 +100,8 @@ public class WorkoutActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_tracker) {
-            Intent youTubePlayer = new Intent(this, DetailActivity.class);
-            startActivity(youTubePlayer);
+            Intent intent = new Intent(this, TrackerActivity.class);
+            startActivity(intent);
             return true;
         }
 
