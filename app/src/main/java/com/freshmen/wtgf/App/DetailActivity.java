@@ -85,7 +85,7 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
             // loadVideo() will auto play video
             // Use cueVideo() method, if you don't want to play it automatically
 
-            youTubePlayer.loadVideo(Config.YOUTUBE_VIDEO_CODE);
+            youTubePlayer.loadVideo(youtube_code);
 
             // Hiding player controls
             youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
