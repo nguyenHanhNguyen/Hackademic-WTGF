@@ -4,4 +4,7 @@
     <string name="action_tracker">Tracker</string>
     <string name="title_activity_detail">DetailActivity</string>
     <string name="error_player">Error</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

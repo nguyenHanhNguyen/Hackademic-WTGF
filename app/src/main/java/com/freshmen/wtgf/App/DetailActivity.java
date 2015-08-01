@@ -2,40 +2,93 @@ package com.freshmen.wtgf.App;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.freshmen.wtgf.Config.Config;
 import com.freshmen.wtgf.R;
 import com.freshmen.wtgf.object.Workout;
-import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
-import com.google.android.youtube.player.YouTubePlayerView;
+import com.google.android.youtube.player.YouTubePlayerSupportFragment;
 
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
-public class DetailActivity extends YouTubeBaseActivity implements YouTubePlayer.OnInitializedListener {
+public class DetailActivity extends AppCompatActivity implements YouTubePlayer.OnInitializedListener {
 
-    private YouTubePlayerView youTubePlayerView;
     private static final int RECOVERY_DIALOG_REQUEST = 1;
+    YouTubePlayerSupportFragment youTubePlayerFragment;
     public static final String TAG = "DETAIL_ACTIVITY";
+    TextView txt_workout_name;
+    TextView txt_workout_desc;
+    TextView txt_workout_calories;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
-        youTubePlayerView = (YouTubePlayerView) findViewById(R.id.youtube_view);
-        youTubePlayerView.initialize(Config.DEVELOPER_KEY, this);
+        setContentView(R.layout.detail_activity);
+
+        Toolbar tb = (Toolbar) findViewById(R.id.act_category_tb_toolbar);
+        setSupportActionBar(tb);
+
+        youTubePlayerFragment = (YouTubePlayerSupportFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.youtube_fragment);
+        youTubePlayerFragment.initialize(Config.DEVELOPER_KEY, this);
 
         new LoadInfo().execute();
 
+        this.txt_workout_desc = (TextView) findViewById(R.id.txt_desc);
+        this.txt_workout_calories = (TextView) findViewById(R.id.txt_calories);
+
+
     }
+
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
+        if (!wasRestored) {
+
+            // loadVideo() will auto play video
+            // Use cueVideo() method, if you don't want to play it automatically
+            youTubePlayer.loadVideo(Config.YOUTUBE_VIDEO_CODE);
+
+            // Hiding player controls
+            youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
+            //player.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
+        }
+    }
+
+    @Override
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
+        if (youTubeInitializationResult.isUserRecoverableError()) {
+            youTubeInitializationResult.getErrorDialog(this, RECOVERY_DIALOG_REQUEST).show();
+        } else {
+            String errorMessage = String.format(
+                    getString(R.string.error_player), youTubeInitializationResult.toString());
+            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == RECOVERY_DIALOG_REQUEST) {
+            // Retry initialization if user performed a recovery action
+            getYouTubePlayerProvider().initialize(Config.DEVELOPER_KEY, this);
+        }
+    }
+
+    private YouTubePlayer.Provider getYouTubePlayerProvider() {
+        return this.youTubePlayerFragment;
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -59,50 +112,12 @@ public class DetailActivity extends YouTubeBaseActivity implements YouTubePlayer
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer player, boolean wasRestored) {
-        if (!wasRestored) {
-
-            // loadVideo() will auto play video
-            // Use cueVideo() method, if you don't want to play it automatically
-            player.loadVideo(Config.YOUTUBE_VIDEO_CODE);
-
-            // Hiding player controls
-            player.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
-            //player.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
-        }
-    }
-
-    @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult errorReason) {
-        if (errorReason.isUserRecoverableError()) {
-            errorReason.getErrorDialog(this, RECOVERY_DIALOG_REQUEST).show();
-        } else {
-            String errorMessage = String.format(
-                    getString(R.string.error_player), errorReason.toString());
-            Toast.makeText(this, errorMessage, Toast.LENGTH_LONG).show();
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == RECOVERY_DIALOG_REQUEST) {
-            // Retry initialization if user performed a recovery action
-            getYouTubePlayerProvider().initialize(Config.DEVELOPER_KEY, this);
-        }
-    }
-
-    private YouTubePlayer.Provider getYouTubePlayerProvider() {
-        return (YouTubePlayerView) findViewById(R.id.youtube_view);
-    }
-
     private class LoadInfo extends AsyncTask<Void, Void, Workout> {
 
         String url = "http://10.0.239.121:8000/app/workout=1/";
 
         @Override
         protected Workout doInBackground(Void... params) {
-
             Workout workout = null;
             try {
                 RestTemplate restTemplate = new RestTemplate();
@@ -119,9 +134,11 @@ public class DetailActivity extends YouTubeBaseActivity implements YouTubePlayer
         @Override
         protected void onPostExecute(Workout workout) {
             Log.d("Workout name", workout.getName());
+            //txt_workout_name.setText(workout.getName());
+            txt_workout_desc.setText(workout.getDescription());
+            txt_workout_calories.setText(String.valueOf(workout.getEstimated_calories()));
+
             super.onPostExecute(workout);
         }
     }
-
-
 }
