@@ -11,4 +11,6 @@ public class WTGF {
 
     public static final String SELECTED_WORKOUT_TAG       = "selected_workout";
     public static final String SELECTED_WORKOUT_VIDEO_TAG = "selected_workout_video";
+
+    public static final String WORK_OUT_LINK = "http://10.0.239.121:8000/app/workout=";
 }
