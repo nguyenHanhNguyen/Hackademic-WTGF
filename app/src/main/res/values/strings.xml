@@ -2,4 +2,6 @@
     <string name="app_name">WTGF</string>
 
     <string name="action_tracker">Tracker</string>
+    <string name="title_activity_detail">DetailActivity</string>
+    <string name="error_player">Error</string>
 </resources>
