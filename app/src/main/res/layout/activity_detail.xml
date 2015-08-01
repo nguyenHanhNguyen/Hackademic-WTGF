@@ -13,4 +13,22 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="30dp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_desc"
+        android:text="N/A"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_name"
+        android:text="N/A"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/txt_calories"
+        android:text="N/A"/>
+
 </LinearLayout>
