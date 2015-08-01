@@ -3,6 +3,7 @@ package com.freshmen.wtgf.adapter;
 import android.content.Context;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +18,8 @@ import java.util.List;
 /**
  * Created by Hung on 01/08/2015.
  */
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder> {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>
+        implements View.OnClickListener{
     private Context        mContext;
     private List<Category> mCategoryList;
 
@@ -57,11 +59,22 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         } else {
             viewHolder.desc.setText(c.getDescription());
         }
+
+        viewHolder.categoryItemLinearLayout.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+//        Intent intent = new Intent(mContext, );
+//        mContext.startActivity(intent);
+        Log.d("test", "On Item Click");
+
     }
 
     public class CategoryViewHolder extends RecyclerView.ViewHolder {
         public TextView name;
         public TextView desc;
+        public LinearLayout categoryItemLinearLayout;
 
 
         public CategoryViewHolder(View view) {
@@ -69,10 +82,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
 
             name = (TextView) view.findViewById(R.id.act_category_tv_item_name);
             desc = (TextView) view.findViewById(R.id.act_category_tv_item_desc);
+            categoryItemLinearLayout = (LinearLayout) view.findViewById(R.id.act_category_ll_item);
 
-            LinearLayout ll = (LinearLayout) view.findViewById(R.id.act_category_ll_item);
-
-            ViewCompat.setElevation(ll, 8F);
+            ViewCompat.setElevation(categoryItemLinearLayout, 16F);
         }
     }
 }

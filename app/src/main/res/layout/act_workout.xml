@@ -11,7 +11,7 @@
         android:layout_height="wrap_content">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/act_category_tb_toolbar"
+            android:id="@+id/act_workout_tb_toolbar"
             android:layout_width="match_parent"
             android:layout_height="?android:actionBarSize"
             android:theme="@style/ThemeOverlay.AppCompat.Dark"
@@ -19,7 +19,7 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/act_category_rv_list"
+        android:id="@+id/act_workout_rv_list"
         android:layout_width="match_parent"
         android:layout_height="fill_parent"
         android:clipToPadding="false"

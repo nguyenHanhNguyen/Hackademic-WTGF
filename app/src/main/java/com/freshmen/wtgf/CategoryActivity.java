@@ -1,17 +1,23 @@
 package com.freshmen.wtgf;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.freshmen.wtgf.adapter.CategoryAdapter;
 import com.freshmen.wtgf.object.Category;
 
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.web.client.RestTemplate;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -36,12 +42,13 @@ public class CategoryActivity extends AppCompatActivity {
 
         rv.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         rv.setAdapter(mAdapter);
+
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_global, menu);
         return true;
     }
 
@@ -62,10 +69,34 @@ public class CategoryActivity extends AppCompatActivity {
 
 
     public void loadCategories() {
-        mCategoryList.add(new Category("Cat 1", "Desc 1"));
-        mCategoryList.add(new Category("Cat 2", "Desc 2"));
-        mCategoryList.add(new Category("Cat 3", "Desc 3"));
+        new HttpRequestTask().execute();
+    }
 
-        mAdapter.notifyDataSetChanged();
+
+    private class HttpRequestTask extends AsyncTask<Void, Void, Category[]> {
+        @Override
+        protected Category[] doInBackground(Void... params) {
+
+            try {
+                final String url = "http://10.0.239.121:8000/app/";
+                RestTemplate restTemplate = new RestTemplate();
+                restTemplate.getMessageConverters().add(new MappingJackson2HttpMessageConverter());
+
+                Category[] categories = restTemplate.getForObject(url, Category[].class);
+                mCategoryList.addAll(Arrays.asList(categories));
+
+                Log.d("test", categories.length + "");
+
+            } catch (Exception ignored) {}
+
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Category[] category) {
+            super.onPostExecute(category);
+
+            CategoryActivity.this.mAdapter.notifyDataSetChanged();
+        }
     }
 }
