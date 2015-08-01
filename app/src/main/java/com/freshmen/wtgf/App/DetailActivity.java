@@ -1,6 +1,8 @@
 package com.freshmen.wtgf.App;
 
+import android.app.ActionBar;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.freshmen.wtgf.Config.Config;
 import com.freshmen.wtgf.R;
 import com.freshmen.wtgf.object.Workout;
@@ -30,6 +33,8 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
     TextView txt_workout_name;
     TextView txt_workout_desc;
     TextView txt_workout_calories;
+    RoundCornerProgressBar progressBar;
+    public int process;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +44,23 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
         Toolbar tb = (Toolbar) findViewById(R.id.act_category_tb_toolbar);
         setSupportActionBar(tb);
 
+
+        //load workout info
+        new LoadInfo().execute();
+
         youTubePlayerFragment = (YouTubePlayerSupportFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.youtube_fragment);
         youTubePlayerFragment.initialize(Config.DEVELOPER_KEY, this);
 
-        new LoadInfo().execute();
-
         this.txt_workout_desc = (TextView) findViewById(R.id.txt_desc);
         this.txt_workout_calories = (TextView) findViewById(R.id.txt_calories);
+
+        this.progressBar = (RoundCornerProgressBar)findViewById(R.id.progress_1);
+        progressBar.setProgressColor(Color.parseColor("#8BC34A"));
+        progressBar.setBackgroundColor(Color.parseColor("#808080"));
+        progressBar.setPadding(5);
+        progressBar.setMax(70);
+        progressBar.setProgress(process);
 
 
     }
@@ -57,10 +71,13 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
 
             // loadVideo() will auto play video
             // Use cueVideo() method, if you don't want to play it automatically
+
             youTubePlayer.loadVideo(Config.YOUTUBE_VIDEO_CODE);
 
             // Hiding player controls
             youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
+            process = youTubePlayer.getCurrentTimeMillis();
+
             //player.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
         }
     }
@@ -134,10 +151,14 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
         @Override
         protected void onPostExecute(Workout workout) {
             Log.d("Workout name", workout.getName());
+
             //txt_workout_name.setText(workout.getName());
             txt_workout_desc.setText(workout.getDescription());
             txt_workout_calories.setText(String.valueOf(workout.getEstimated_calories()));
-
+            String url = workout.getVideo_url();
+/*            int startIndex = url.indexOf("=");
+            youtube_code = url.substring(startIndex + 1, url.length());
+            Log.d("Code", youtube_code);*/
             super.onPostExecute(workout);
         }
     }
