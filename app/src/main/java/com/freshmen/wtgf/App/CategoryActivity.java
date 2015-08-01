@@ -1,4 +1,4 @@
-package com.freshmen.wtgf;
+package com.freshmen.wtgf.App;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -14,6 +14,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.freshmen.wtgf.App.DetailActivity;
+import com.freshmen.wtgf.R;
+import com.freshmen.wtgf.WTGF;
 import com.freshmen.wtgf.adapter.CategoryAdapter;
 import com.freshmen.wtgf.object.Category;
 

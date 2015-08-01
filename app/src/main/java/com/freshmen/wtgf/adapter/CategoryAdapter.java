@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.freshmen.wtgf.R;
 import com.freshmen.wtgf.WTGF;
-import com.freshmen.wtgf.WorkoutActivity;
+import com.freshmen.wtgf.App.WorkoutActivity;
 import com.freshmen.wtgf.object.Category;
 
 import java.util.List;
