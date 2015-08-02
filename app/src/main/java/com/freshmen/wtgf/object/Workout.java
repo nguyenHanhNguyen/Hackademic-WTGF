@@ -6,13 +6,22 @@ package com.freshmen.wtgf.object;
 public class Workout {
     private String name;
     private String video_url;
-    private int exerciseNumber;
-    private int category;
-    private int estimated_calories;
+    private int    exerciseNumber;
+    private int    category;
+    private int    estimated_calories;
+    private int    video_duration_in_second;
     private String tags;
     private String video_duration;
     private String description;
     private String video_thumbnail;
+
+    public int getVideo_duration_in_second() {
+        return video_duration_in_second;
+    }
+
+    public void setVideo_duration_in_second(int video_duration_in_second) {
+        this.video_duration_in_second = video_duration_in_second;
+    }
 
     public int getVideo_duration_in_second() {
         return video_duration_in_second;

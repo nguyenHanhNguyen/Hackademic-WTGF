@@ -15,6 +15,7 @@
     <string name="act_tracker_tv_cal">Calories burned today</string>
     <string name="act_tracker_tv_history">Workout viewed</string>
     <string name="act_tracker_bc_desc">Calories burned in the last 7 days</string>
+    <string name="act_tracker_bc_legend">Calories</string>
     <string name="act_tracker_bc_no_data_desc">No data</string>
 
     <string name="action_settings">Settings</string>

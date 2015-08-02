@@ -26,6 +26,7 @@
             android:id="@+id/act_tracker_ll_info"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:clipToPadding="false"
             android:orientation="vertical"
             android:paddingBottom="@dimen/act_vertical_margin"
             android:paddingLeft="@dimen/act_horizontal_margin"
@@ -39,6 +40,7 @@
                 android:background="@drawable/drawable_white_background_with_corners" />
 
             <LinearLayout
+                android:id="@+id/act_tracker_ll_total_calo"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/act_padding"
@@ -49,7 +51,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/text_padding"
-                    android:text="@string/act_tracker_tv_cal" />
+                    android:text="@string/act_tracker_tv_cal"
+                    android:textStyle="bold" />
 
                 <View
                     android:layout_width="match_parent"
@@ -69,6 +72,7 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/act_tracker_ll_history_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/act_padding"
@@ -79,20 +83,17 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="@dimen/text_padding"
-                    android:text="@string/act_tracker_tv_history" />
-
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="1dp"
-                    android:background="@color/divider" />
+                    android:text="@string/act_tracker_tv_history"
+                    android:textStyle="bold" />
 
                 <LinearLayout
-                    android:id="@+id/act_tracker_tv_history"
+                    android:id="@+id/act_tracker_ll_history"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                </LinearLayout>
+                    android:background="@drawable/drawable_gray_background_with_corners"
+                    android:orientation="vertical"
+                    android:paddingBottom="@dimen/act_vertical_margin"
+                    android:paddingTop="@dimen/act_vertical_margin" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

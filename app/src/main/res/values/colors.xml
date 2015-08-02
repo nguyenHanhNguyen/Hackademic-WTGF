@@ -14,4 +14,5 @@
     <color name="com_parse_ui_facebook_login_button_push">#2E4677</color>
     <color name="com_parse_ui_facebook_login_button_focus">#304F8B</color>
     <color name="background">#FFFFFF</color>
+    <color name="transparent">#00FFFFFF</color>
 </resources>
