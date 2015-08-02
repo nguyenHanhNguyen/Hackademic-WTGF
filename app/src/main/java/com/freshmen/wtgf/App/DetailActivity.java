@@ -4,14 +4,18 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.akexorcist.roundcornerprogressbar.IconRoundCornerProgressBar;
 import com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar;
 import com.freshmen.wtgf.Config.Config;
 import com.freshmen.wtgf.R;
@@ -29,13 +33,19 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
     private static final int RECOVERY_DIALOG_REQUEST = 1;
     YouTubePlayerSupportFragment youTubePlayerFragment;
     public static final String TAG = "DETAIL_ACTIVITY";
-    TextView txt_workout_name;
     TextView txt_workout_desc;
     TextView txt_workout_calories;
+    TextView txt_calories_burn;
     RoundCornerProgressBar progressBar;
-    public int process;
     public android.support.v7.app.ActionBar actionBar;
     public String youtube_code;
+    public int video_duration;
+    public int progress = 0;
+    public int total_calories;
+    public float calories_burn = 0;
+    public float calories_per_second;
+    public Button btn_tracker;
+    private Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +67,17 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
 
         actionBar = getSupportActionBar();
 
+        txt_calories_burn = (TextView) findViewById(R.id.txt_calories_burn);
+        txt_calories_burn.setText("0 Calories");
+        btn_tracker = (Button) findViewById(R.id.btn_start_tracker);
+
+        btn_tracker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startTracker();
+            }
+        });
+
 
         //load workout info
         LoadInfo loadInfo = new LoadInfo(workout_id);
@@ -73,8 +94,36 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
         this.progressBar = (RoundCornerProgressBar) findViewById(R.id.progress_1);
         progressBar.setProgressColor(Color.parseColor("#8BC34A"));
         progressBar.setBackgroundColor(Color.parseColor("#808080"));
-        progressBar.setPadding(5);
-        progressBar.setMax(70);
+        progressBar.setPadding(10);
+        progressBar.setRadius(30);
+    }
+
+    public void startTracker() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("test", "Progress " + progress);
+                Log.d("test", "Progress " + video_duration);
+                btn_tracker.setClickable(false);
+                while (progress < video_duration) {
+                    Log.d("video duration", String.valueOf(video_duration));
+                    progress += 1;
+                    calories_burn += calories_per_second;
+                    handler.post(new Runnable() {
+                        public void run() {
+                            progressBar.setProgress(progress);
+                            txt_calories_burn.setText(String.format("%.2f", calories_burn) + " Calories");
+                        }
+                    });
+                    try {
+                        Thread.sleep(200);
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }).start();
 
     }
 
@@ -83,16 +132,11 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
         if (!wasRestored) {
 
             // loadVideo() will auto play video
-            // Use cueVideo() method, if you don't want to play it automatically
-
             youTubePlayer.loadVideo(youtube_code);
 
-            // Hiding player controls
+            // Show player controls
             youTubePlayer.setPlayerStyle(YouTubePlayer.PlayerStyle.DEFAULT);
-            process = youTubePlayer.getCurrentTimeMillis();
-            progressBar.setProgress(process);
 
-            //player.setPlayerStyle(YouTubePlayer.PlayerStyle.CHROMELESS);
         }
     }
 
@@ -124,7 +168,7 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        getMenuInflater().inflate(R.menu.menu_global, menu);
         return true;
     }
 
@@ -136,7 +180,9 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_tracker) {
+            Intent intent = new Intent(this, TrackerActivity.class);
+            startActivity(intent);
             return true;
         }
 
@@ -154,7 +200,6 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
         public void setWorkout_id(int workout_id) {
             this.workout_id = workout_id;
         }
-
 
 
         @Override
@@ -178,11 +223,14 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
         @Override
         protected void onPostExecute(Workout workout) {
             Log.d("Workout name", workout.getName());
-
             actionBar.setTitle(workout.getName());
             txt_workout_desc.setText(workout.getDescription());
             txt_workout_calories.setText(String.valueOf(workout.getEstimated_calories()));
-
+            total_calories = workout.getEstimated_calories();
+            video_duration = workout.getVideo_duration_in_second();
+            calories_per_second = (float) total_calories / video_duration;
+            Log.d("second", String.valueOf(calories_per_second));
+            progressBar.setMax(video_duration);
             super.onPostExecute(workout);
         }
     }
