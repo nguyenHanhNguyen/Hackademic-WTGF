@@ -3,7 +3,7 @@ import datetime
 from django.http import HttpResponse
 from models import Category, Workout, User
 import json
-from calendar import monthrange, Calendar
+from calendar import monthrange
 
 
 def categories(request):
@@ -64,8 +64,9 @@ def user_info(request, user_id):
 
 def total_calo_week(request, user_id):
     user_history = User.objects.get(pk=user_id).history
-    now = datetime.datetime.now() + datetime.timedelta(days=3)
+    now = datetime.datetime.now()
     current_month = now.month
+    current_month_string = str(current_month)
     current_date = now.day
     current_day_of_week = now.weekday()
     recent_list = {}
@@ -73,32 +74,36 @@ def total_calo_week(request, user_id):
 
     if current_date < date_to_traceback:
         previous_month = current_month - 1
+        previous_month_string = str(previous_month)
         previous_days_to_calculate = monthrange(2015, previous_month)[1] - date_to_traceback
-        for i in range(previous_days_to_calculate, monthrange(2015, previous_month)[1]+1):
+        for date in range(previous_days_to_calculate, monthrange(2015, previous_month)[1]+1):
+            date_string = str(date)
             sum_of_day = 0
             try:
-                for j in user_history[str(previous_month)][str(i)].keys():
-                    sum_of_day += user_history[str(previous_month)][str(i)][str(j)]['calories']
-                recent_list[datetime.date(2015, previous_month, i).strftime("%A")] = sum_of_day
+                for time in user_history[previous_month_string][date_string].keys():
+                    sum_of_day += user_history[previous_month_string][date_string][time]['calories']
+                recent_list[datetime.date(2015, previous_month, date).strftime("%A").lower()] = sum_of_day
             except KeyError:
-                recent_list[datetime.date(2015, previous_month, i).strftime("%A")] = 0
-        for i in range(1, current_date+1):
+                recent_list[datetime.date(2015, previous_month, date).strftime("%A").lower()] = 0
+        for date in range(1, current_date+1):
+            date_string = str(date)
             sum_of_day = 0
             try:
-                for j in user_history[str(current_month)][str(i)].keys():
-                    sum_of_day += user_history[str(current_month)][str(i)][j]['calories']
-                recent_list[datetime.date(2015, current_month, i).strftime("%A")] = sum_of_day
+                for time in user_history[current_month_string][date_string].keys():
+                    sum_of_day += user_history[current_month_string][date_string][time]['calories']
+                recent_list[datetime.date(2015, current_month, date).strftime("%A").lower()] = sum_of_day
             except KeyError:
-                recent_list[datetime.date(2015, current_month, i).strftime("%A")] = 0
+                recent_list[datetime.date(2015, current_month, date).strftime("%A").lower()] = 0
     else:
         start_date = current_date - current_day_of_week
-        for i in range(start_date, current_date+1):
+        for date in range(start_date, current_date+1):
+            date_string = str(date)
             sum_of_day = 0
             try:
-                for j in user_history[str(current_month)][str(i)].keys():
-                    sum_of_day += user_history[str(current_month)][str(i)][j]['calories']
-                recent_list[datetime.date(2015, current_month, i).strftime("%A")] = sum_of_day
+                for time in user_history[current_month_string][date_string].keys():
+                    sum_of_day += user_history[current_month_string][date_string][time]['calories']
+                recent_list[datetime.date(2015, current_month, date).strftime("%A")] = sum_of_day
             except KeyError:
-                recent_list[datetime.date(2015, current_month, i).strftime("%A")] = 0
+                recent_list[datetime.date(2015, current_month, date).strftime("%A")] = 0
 
-    return HttpResponse(json.dumps(recent_list, sort_keys=True), content_type="application/json")
+    return HttpResponse(json.dumps(recent_list), content_type="application/json")
