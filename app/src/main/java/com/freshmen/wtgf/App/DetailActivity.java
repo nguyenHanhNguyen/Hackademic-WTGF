@@ -70,14 +70,12 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
         txt_calories_burn = (TextView) findViewById(R.id.txt_calories_burn);
         txt_calories_burn.setText("0 Calories");
         btn_tracker = (Button) findViewById(R.id.btn_start_tracker);
-
         btn_tracker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startTracker();
             }
         });
-
 
         //load workout info
         LoadInfo loadInfo = new LoadInfo(workout_id);
@@ -92,8 +90,8 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
         this.txt_workout_calories = (TextView) findViewById(R.id.txt_calories);
 
         this.progressBar = (RoundCornerProgressBar) findViewById(R.id.progress_1);
-        progressBar.setProgressColor(Color.parseColor("#8BC34A"));
-        progressBar.setBackgroundColor(Color.parseColor("#808080"));
+        progressBar.setProgressColor(Color.parseColor("#4CAF50"));
+        progressBar.setBackgroundColor(Color.parseColor("#C8E6C9"));
         progressBar.setPadding(10);
         progressBar.setRadius(30);
     }
