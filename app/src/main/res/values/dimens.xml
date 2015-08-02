@@ -15,7 +15,7 @@
     <dimen name="text_padding_small">4dp</dimen>
 
     <dimen name="act_workout_riv_thumb_size">100dp</dimen>
-    <dimen name="act_workout_tv_prompt_width">64dp</dimen>
+    <dimen name="act_workout_tv_prompt_width">72dp</dimen>
 
     <dimen name="act_tracker_bc_height">250dp</dimen>
 </resources>
