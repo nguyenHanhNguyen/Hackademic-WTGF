@@ -121,6 +121,7 @@
                 android:id="@+id/btn_start_tracker"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
+                android:textColor="@color/background"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginRight="10dp"
                 android:layout_marginTop="5dp"
