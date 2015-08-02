@@ -40,7 +40,7 @@
                 android:layout_marginBottom="5dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:background="@drawable/detail_desc_background"
+                android:background="@drawable/drawable_white_background_with_corners"
                 android:orientation="vertical"
                 android:padding="@dimen/text_padding">
 
@@ -71,7 +71,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
-                android:background="@drawable/detail_desc_background"
+                android:background="@drawable/drawable_white_background_with_corners"
                 android:orientation="vertical"
                 android:padding="@dimen/text_padding">
 
@@ -110,27 +110,27 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="@dimen/text_padding"
-            android:gravity="center"
-            android:layout_marginTop="5dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp">
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="@dimen/text_padding">
 
             <Button
                 android:id="@+id/btn_start_tracker"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="5dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginTop="5dp"
                 android:background="@drawable/btn_tracker"
                 android:text="@string/btn_start_tracker" />
 
             <LinearLayout
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:background="@drawable/detail_desc_background"
+                android:background="@drawable/drawable_white_background_with_corners"
                 android:orientation="vertical"
                 android:padding="@dimen/text_padding">
 
@@ -149,16 +149,31 @@
 
                 <TextView
                     android:id="@+id/txt_calories_burn"
-                    android:gravity="center"
-                    android:layout_gravity="center_horizontal"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:gravity="center"
                     android:padding="@dimen/text_padding"
                     android:text="N/A" />
 
             </LinearLayout>
 
         </LinearLayout>
+
+
+        <Button
+            android:id="@+id/btn_post_fb"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="16dp"
+            android:background="@drawable/fb_log_in"
+            android:drawableLeft="@drawable/com_parse_ui_facebook_login_logo"
+            android:gravity="center"
+            android:padding="16dp"
+            android:text="Post to Facebook"
+            android:textColor="@color/background" />
+
 
     </LinearLayout>
 </ScrollView>
