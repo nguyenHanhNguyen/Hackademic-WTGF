@@ -28,65 +28,73 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/detail_desc_background"
-        android:orientation="vertical"
-        android:padding="@dimen/text_padding">
+        android:orientation="horizontal">
 
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:padding="@dimen/text_padding"
-            android:text="@string/txt_description_label"
-            android:textColor="@color/primary_text" />
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/detail_desc_background"
+            android:orientation="vertical"
+            android:padding="@dimen/text_padding">
 
-        <View
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/text_padding"
+                android:text="@string/txt_description_label"
+                android:textColor="@color/primary_text" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider" />
+
+            <TextView
+                android:id="@+id/txt_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/text_padding"
+                android:text="N/A" />
+
+        </LinearLayout>
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/divider" />
-
-        <TextView
-            android:id="@+id/txt_desc"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/text_padding"
-            android:text="N/A" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:background="@drawable/detail_desc_background"
-        android:orientation="vertical"
-        android:padding="@dimen/text_padding">
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_weight="1"
+            android:background="@drawable/detail_desc_background"
+            android:orientation="vertical"
+            android:padding="@dimen/text_padding">
 
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:padding="@dimen/text_padding"
-            android:text="@string/txt_calories_label"
-            android:textColor="@color/primary_text" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:padding="@dimen/text_padding"
+                android:text="@string/txt_calories_label"
+                android:textColor="@color/primary_text" />
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/divider" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider" />
 
-        <TextView
-            android:id="@+id/txt_calories"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/text_padding"
-            android:text="N/A" />
+            <TextView
+                android:id="@+id/txt_calories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/text_padding"
+                android:text="N/A" />
 
+        </LinearLayout>
     </LinearLayout>
 
     <com.akexorcist.roundcornerprogressbar.RoundCornerProgressBar
@@ -96,5 +104,13 @@
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
         android:layout_marginTop="5dp" />
+
+    <Button
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:text="@string/btn_start_tracker"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/btn_start_tracker"
+        android:background="@drawable/btn_tracker"/>
 
 </LinearLayout>
