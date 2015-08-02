@@ -19,6 +19,8 @@
 
     <string name="action_settings">Settings</string>
     <string name="txt_description_label">Description</string>
-    <string name="txt_calories_label">Calories burn</string>
+    <string name="txt_calories_label">Approximate total calories burnt</string>
     <string name="btn_start_tracker">Start</string>
+    <string name="facebook_app_id">1004795812898096</string>
+    <string name="btn_fb">Post to Facebook</string>
 </resources>

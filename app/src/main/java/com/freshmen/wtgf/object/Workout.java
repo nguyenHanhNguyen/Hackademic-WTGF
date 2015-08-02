@@ -14,6 +14,16 @@ public class Workout {
     private String description;
     private String video_thumbnail;
 
+    public int getVideo_duration_in_second() {
+        return video_duration_in_second;
+    }
+
+    public void setVideo_duration_in_second(int video_duration_in_second) {
+        this.video_duration_in_second = video_duration_in_second;
+    }
+
+    private int video_duration_in_second;
+
     public String getVideo_thumbnail() {
         return video_thumbnail;
     }
