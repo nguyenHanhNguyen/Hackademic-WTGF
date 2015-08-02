@@ -111,6 +111,7 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
         youTubePlayerFragment = (YouTubePlayerSupportFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.youtube_fragment);
         youTubePlayerFragment.initialize(Config.DEVELOPER_KEY, this);
+        youTubePlayerFragment.setRetainInstance(true);
 
         this.txt_workout_desc = (TextView) findViewById(R.id.txt_desc);
         this.txt_workout_calories = (TextView) findViewById(R.id.txt_calories);
@@ -229,9 +230,10 @@ public class DetailActivity extends AppCompatActivity implements YouTubePlayer.O
         if (requestCode == RECOVERY_DIALOG_REQUEST) {
             // Retry initialization if user performed a recovery action
             getYouTubePlayerProvider().initialize(Config.DEVELOPER_KEY, this);
+        } else {
+            if (data != null && callbackManager != null)
+                callbackManager.onActivityResult(requestCode, resultCode, data);
         }
-
-        callbackManager.onActivityResult(requestCode, resultCode, data);
     }
 
     private YouTubePlayer.Provider getYouTubePlayerProvider() {
