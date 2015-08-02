@@ -106,9 +106,6 @@ public class CategoryActivity extends AppCompatActivity {
 
                 Category[] categories = restTemplate.getForObject(url, Category[].class);
                 mCategoryList.addAll(Arrays.asList(categories));
-
-                Log.d("test", categories.length + "");
-
             } catch (Exception ignored) {
                 Log.d("test", ignored.getMessage());
             }

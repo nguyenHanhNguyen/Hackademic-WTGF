@@ -9,7 +9,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -132,9 +131,6 @@ public class WorkoutActivity extends AppCompatActivity {
 
                 Workout[] workouts = restTemplate.getForObject(url, Workout[].class);
                 mWorkoutList.addAll(Arrays.asList(workouts));
-
-                Log.d("test", workouts.length + "");
-
             } catch (Exception ignored) {}
 
             return null;
