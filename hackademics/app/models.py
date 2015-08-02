@@ -29,9 +29,12 @@ class Workout(models.Model):
 
     def as_json(self):
         video = pafy.new(self.video_url)
+        video_duration = video.duration
+        list = video.duration.split(":")
+        vieo_duration_in_second = int(list[0]) * 3600 + int(list[1]) * 60 + int(list[2])
         return dict(name=self.name, estimated_calories=self.estimated_calories,
                     description=self.description, video_url=self.video_url,
-                    video_duration=video.duration,
+                    video_duration=video_duration,video_duration_in_second=vieo_duration_in_second,
                     video_thumbnail=video.thumb,
                     tags=self.tags)
 

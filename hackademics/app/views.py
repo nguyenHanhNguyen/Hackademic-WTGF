@@ -3,7 +3,7 @@ import datetime
 from django.http import HttpResponse
 from models import Category, Workout, User
 import json
-from calendar import monthrange
+from calendar import monthrange, Calendar
 
 
 def categories(request):
@@ -29,7 +29,7 @@ def dump_user_data(request, user_id):
     dump_dict = {}
     for i in range(1000):
         month = randrange(1, 13)
-        day = monthrange(2015, month)
+        day = randrange(1,monthrange(2015, month)[1]+1)
         hour = randrange(6, 18)
         minute = randrange(0, 59)
         hour_string = str(hour)
@@ -63,36 +63,42 @@ def user_info(request, user_id):
 
 
 def total_calo_week(request, user_id):
-    user = User.objects.get(pk=user_id)
-    user_history = user.history
-
-    now = datetime.datetime.now()
-    now_month = now.month
-    now_day = now.day
-    now_day_of_week = now.weekday()
+    user_history = User.objects.get(pk=user_id).history
+    now = datetime.datetime.now() + datetime.timedelta(days=3)
+    current_month = now.month
+    current_date = now.day
+    current_day_of_week = now.weekday()
     recent_list = {}
-    date_to_traceback = now_day_of_week - now_day
+    date_to_traceback = current_day_of_week - current_date
 
-    if now_day < date_to_traceback:
-        previous_month = now_month - 1
+    if current_date < date_to_traceback:
+        previous_month = current_month - 1
         previous_days_to_calculate = monthrange(2015, previous_month)[1] - date_to_traceback
         for i in range(previous_days_to_calculate, monthrange(2015, previous_month)[1]+1):
             sum_of_day = 0
             try:
                 for j in user_history[str(previous_month)][str(i)].keys():
                     sum_of_day += user_history[str(previous_month)][str(i)][str(j)]['calories']
-                recent_list[str(previous_month) + "-" + str(i)] = sum_of_day
+                recent_list[datetime.date(2015, previous_month, i).strftime("%A")] = sum_of_day
             except KeyError:
-                recent_list[str(previous_month) + "-" + str(i)] = 0
-    for i in range(1, now_day+1):
-        sum_of_day = 0
-        try:
-            for j in user_history[str(now_month)][str(i)].keys():
-                sum_of_day += user_history[str(now_month)][str(i)][str(j)]['calories']
-            recent_list[str(now_month) + "-" + str(i)] = sum_of_day
-        except KeyError:
-            recent_list[str(now_month) + "-" + str(i)] = 0
-    return HttpResponse(json.dumps(recent_list, sort_keys=True), content_type="application/json")
-    # return HttpResponse(monthrange(2015,7)[1])
-# user_history["8"]["1"]["16:31"]["calories"]
+                recent_list[datetime.date(2015, previous_month, i).strftime("%A")] = 0
+        for i in range(1, current_date+1):
+            sum_of_day = 0
+            try:
+                for j in user_history[str(current_month)][str(i)].keys():
+                    sum_of_day += user_history[str(current_month)][str(i)][j]['calories']
+                recent_list[datetime.date(2015, current_month, i).strftime("%A")] = sum_of_day
+            except KeyError:
+                recent_list[datetime.date(2015, current_month, i).strftime("%A")] = 0
+    else:
+        start_date = current_date - current_day_of_week
+        for i in range(start_date, current_date+1):
+            sum_of_day = 0
+            try:
+                for j in user_history[str(current_month)][str(i)].keys():
+                    sum_of_day += user_history[str(current_month)][str(i)][j]['calories']
+                recent_list[datetime.date(2015, current_month, i).strftime("%A")] = sum_of_day
+            except KeyError:
+                recent_list[datetime.date(2015, current_month, i).strftime("%A")] = 0
 
+    return HttpResponse(json.dumps(recent_list, sort_keys=True), content_type="application/json")
