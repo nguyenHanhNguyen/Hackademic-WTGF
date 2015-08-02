@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.freshmen.wtgf.R;
 import com.freshmen.wtgf.WTGF;
@@ -24,6 +25,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import fr.castorflex.android.circularprogressbar.CircularProgressBar;
@@ -41,6 +43,7 @@ public class TrackerActivity extends AppCompatActivity {
     private CircularProgressBar mProgress;
     private LinearLayout        mInfo;
     private RelativeLayout      mProgressLayout;
+    private TextView            mTotalCalo;
 
 
     @Override
@@ -62,9 +65,9 @@ public class TrackerActivity extends AppCompatActivity {
         mInfo = (LinearLayout) findViewById(R.id.act_tracker_ll_info);
         mProgress = (CircularProgressBar) findViewById(R.id.act_tracker_cpb_progress);
         mProgressLayout = (RelativeLayout) findViewById(R.id.act_tracker_rv_progress);
+        mTotalCalo = (TextView) findViewById(R.id.act_tracker_tv_total_burn);
 
         mChart = (BarChart) findViewById(R.id.act_tracker_bc_chart);
-
         mChart.setDescription(getResources().getString(R.string.act_tracker_bc_desc));
         mChart.setNoDataTextDescription(getResources().getString(R.string.act_tracker_bc_no_data_desc));
         mChart.setTouchEnabled(false);
@@ -127,6 +130,10 @@ public class TrackerActivity extends AppCompatActivity {
 
                 mChart.getAxisLeft().resetAxisMaxValue();
                 mChart.notifyDataSetChanged();
+
+                Calendar calendar = Calendar.getInstance();
+                int day = (calendar.get(Calendar.DAY_OF_WEEK) + 5) % 7;
+                mTotalCalo.setText(String.valueOf((int) mEntries.get(day).getVal()));
             }
 
             mProgressLayout.setVisibility(View.GONE);
